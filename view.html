@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Christmas Tree</title>
+    <link rel="stylesheet" href="view.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        @font-face {
+            font-family: 'Lilita One';
+            src: url('fonts/LilitaOne-Regular.ttf') format('truetype');
+            font-weight: 400;
+        }
+    </style>
+</head>
+<body>
+    <!-- Christmas Music -->
+    <audio id="christmas-music" loop>
+        <source src="https://www.bensound.com/bensound-music/bensound-jinglebells.mp3" type="audio/mpeg">
+        <source src="https://cdn.pixabay.com/audio/2022/12/06/audio_4fe32c6ff1.mp3" type="audio/mpeg">
+    </audio>
+    
+    <div class="view-container">
+        <div class="view-header">
+            <h1>Merry Christmas!</h1>
+            <a href="index.html" class="create-yours-btn">Create Your Own</a>
+        </div>
+        
+        <div class="canvas-wrapper">
+            <div class="view-canvas" id="viewCanvas">
+                <!-- Design will be loaded here -->
+            </div>
+        </div>
+        
+        <div class="view-footer">
+            <p>Made with ❤️ using Christmas Tree Decorator</p>
+            <a href="index.html" class="footer-link">Create your own decorated tree →</a>
+        </div>
+    </div>
+    
+    <script src="supabase-config.js"></script>
+    <script src="view.js"></script>
+</body>
+</html>

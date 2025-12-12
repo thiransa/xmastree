@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Extract Ornaments from orgg.PNG</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #f0f0f0;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        h1 {
+            color: #333;
+        }
+        .controls {
+            margin: 20px 0;
+            padding: 15px;
+            background: #f8f8f8;
+            border-radius: 5px;
+        }
+        .controls label {
+            display: inline-block;
+            margin-right: 10px;
+            font-weight: bold;
+        }
+        .controls input {
+            padding: 5px;
+            margin-right: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background: #45a049;
+        }
+        #preview {
+            margin: 20px 0;
+            border: 2px dashed #ccc;
+            min-height: 200px;
+            position: relative;
+        }
+        .ornament-preview {
+            display: inline-block;
+            margin: 10px;
+            border: 1px solid #ddd;
+            padding: 5px;
+            background: white;
+            border-radius: 5px;
+        }
+        .ornament-preview img {
+            display: block;
+            max-width: 100px;
+            max-height: 100px;
+        }
+        .ornament-preview button {
+            width: 100%;
+            margin-top: 5px;
+            padding: 5px;
+            font-size: 12px;
+        }
+        #sourceCanvas {
+            border: 1px solid #333;
+            margin: 20px 0;
+        }
+        .instructions {
+            background: #e3f2fd;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎄 Ornament Extractor</h1>
+        
+        <div class="instructions">
+            <h3>Instructions:</h3>
+            <ol>
+                <li>The orgg.PNG file will be loaded automatically</li>
+                <li>Adjust the grid settings (rows/columns) to match your ornament layout</li>
+                <li>Click "Extract Ornaments" to split them</li>
+                <li>Download each ornament individually</li>
+                <li>Place them in the assets/ornaments/ folder</li>
+            </ol>
+        </div>
+
+        <div class="controls">
+            <label>Columns:</label>
+            <input type="number" id="cols" value="4" min="1" max="10">
+            
+            <label>Rows:</label>
+            <input type="number" id="rows" value="4" min="1" max="10">
+            
+            <label>Padding (px):</label>
+            <input type="number" id="padding" value="10" min="0" max="50">
+            
+            <button onclick="extractOrnaments()">Extract Ornaments</button>
+        </div>
+
+        <h3>Source Image:</h3>
+        <canvas id="sourceCanvas"></canvas>
+
+        <h3>Extracted Ornaments:</h3>
+        <div id="preview"></div>
+    </div>
+
+    <script>
+        const img = new Image();
+        img.crossOrigin = 'anonymous';
+        img.onload = function() {
+            const canvas = document.getElementById('sourceCanvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = img.width;
+            canvas.height = img.height;
+            ctx.drawImage(img, 0, 0);
+            
+            console.log('Image loaded:', img.width, 'x', img.height);
+        };
+        img.onerror = function() {
+            alert('Error loading orgg.PNG. Make sure the file exists in the assets folder.');
+        };
+        img.src = 'assets/orgg.PNG';
+
+        function extractOrnaments() {
+            const cols = parseInt(document.getElementById('cols').value);
+            const rows = parseInt(document.getElementById('rows').value);
+            const padding = parseInt(document.getElementById('padding').value);
+            
+            const canvas = document.getElementById('sourceCanvas');
+            const ctx = canvas.getContext('2d');
+            
+            const cellWidth = canvas.width / cols;
+            const cellHeight = canvas.height / rows;
+            
+            const preview = document.getElementById('preview');
+            preview.innerHTML = '';
+            
+            let ornamentCount = 0;
+            
+            for (let row = 0; row < rows; row++) {
+                for (let col = 0; col < cols; col++) {
+                    ornamentCount++;
+                    
+                    // Create a new canvas for this ornament
+                    const ornamentCanvas = document.createElement('canvas');
+                    const ornamentCtx = ornamentCanvas.getContext('2d');
+                    
+                    // Calculate dimensions with padding
+                    const width = cellWidth - (padding * 2);
+                    const height = cellHeight - (padding * 2);
+                    
+                    ornamentCanvas.width = width;
+                    ornamentCanvas.height = height;
+                    
+                    // Extract the ornament
+                    const sx = col * cellWidth + padding;
+                    const sy = row * cellHeight + padding;
+                    
+                    ornamentCtx.drawImage(canvas, sx, sy, width, height, 0, 0, width, height);
+                    
+                    // Create preview
+                    const wrapper = document.createElement('div');
+                    wrapper.className = 'ornament-preview';
+                    
+                    const img = document.createElement('img');
+                    img.src = ornamentCanvas.toDataURL('image/png');
+                    
+                    const downloadBtn = document.createElement('button');
+                    downloadBtn.textContent = `Download #${ornamentCount}`;
+                    downloadBtn.onclick = () => downloadOrnament(ornamentCanvas, ornamentCount);
+                    
+                    wrapper.appendChild(img);
+                    wrapper.appendChild(downloadBtn);
+                    preview.appendChild(wrapper);
+                }
+            }
+            
+            console.log(`Extracted ${ornamentCount} ornaments`);
+        }
+        
+        function downloadOrnament(canvas, number) {
+            const link = document.createElement('a');
+            link.download = `ornament-${number + 8}.png`;
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+        }
+    </script>
+</body>
+</html>

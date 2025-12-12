@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tree Editor</title>
+    <link rel="stylesheet" href="editor.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</head>
+<body>
+    <div class="editor-header">
+        <button class="back-btn"> ← Editor</button>
+        <div class="header-actions">
+            <button class="undo-btn" title="Undo (Ctrl+Z)">↶ Undo</button>
+            <button class="redo-btn" title="Redo (Ctrl+Y)">↷ Redo</button>
+            <button class="clear-btn">Clear</button>
+            <button class="save-btn">Save</button>
+        </div>
+    </div>
+    
+    <div class="editor-container">
+        <div class="sidebar">
+            <div class="toolbar-buttons">
+                <button class="tool-btn" data-tool="default">Deco</button>
+                <button class="tool-btn" data-tool="text">T Text</button>
+                <button class="tool-btn" data-tool="image">Image</button>
+            </div>
+            
+            <!-- Default Sections -->
+            <div class="section default-section">
+                <div class="section-header">
+                    <span>Background</span>
+                    <button class="color-picker-btn">+</button>
+                </div>
+                <div class="background-grid">
+                    <div class="bg-option" style="background-color: white;"></div>
+                    <div class="bg-option" style="background-color: #f5e6d3;"></div>
+                    <div class="bg-option" style="background-color: #f0f0f0;"></div>
+                    <div class="bg-option" style="background-color: #e8d4b8;"></div>
+                    <div class="bg-option pattern-1"></div>
+                    <div class="bg-option pattern-2"></div>
+                    <div class="bg-option pattern-3"></div>
+                    <div class="bg-option pattern-4"></div>
+                    <div class="bg-option christmas-red"></div>
+                    <div class="bg-option christmas-green"></div>
+                    <div class="bg-option christmas-snow"></div>
+                    <div class="bg-option christmas-stars"></div>
+                    <div class="bg-option christmas-stripes"></div>
+                    <div class="bg-option christmas-lights"></div>
+                    <div class="bg-option christmas-plaid"></div>
+                    <div class="bg-option christmas-gradient"></div>
+                </div>
+            </div>
+            
+            <div class="section default-section">
+                <div class="section-header">
+                    <span>Tree</span>
+                </div>
+                <div class="stickers-grid">
+                    <div class="ornament-box has-image">
+                        <img src="assets/xmas-1.PNG" alt="Tree 1" class="tree-preview">
+                    </div>
+                    <div class="ornament-box has-image">
+                        <img src="assets/xxmas.PNG" alt="Tree 2" class="tree-preview">
+                    </div>
+                    <div class="ornament-box"></div>
+                    <div class="ornament-box"></div>
+                    <div class="ornament-box"></div>
+                    <div class="ornament-box"></div>
+                </div>
+            </div>
+            
+            <div class="section default-section">
+                <div class="section-header">
+                    <span>Ornaments</span>
+                </div>
+                <div class="stickers-grid">
+                    <div class="ornament-box has-image">
+                        <img src="assets/ornaments/ornament-1.png" alt="Ornament 1" class="tree-preview">
+                    </div>
+                    <div class="ornament-box has-image">
+                        <img src="assets/ornaments/ornament-2.png" alt="Ornament 2" class="tree-preview">
+                    </div>
+                    <div class="ornament-box has-image">
+                        <img src="assets/ornaments/ornament-3.png" alt="Ornament 3" class="tree-preview">
+                    </div>
+                    <div class="ornament-box has-image">
+                        <img src="assets/ornaments/ornament-4.png" alt="Ornament 4" class="tree-preview">
+                    </div>
+                    <div class="ornament-box has-image">
+                        <img src="assets/ornaments/ornament-5.png" alt="Ornament 5" class="tree-preview">
+                    </div>
+                    <div class="ornament-box has-image">
+                        <img src="assets/ornaments/ornament-6.png" alt="Ornament 6" class="tree-preview">
+                    </div>
+                    <div class="ornament-box has-image">
+                        <img src="assets/ornaments/ornament-7.png" alt="Ornament 7" class="tree-preview">
+                    </div>
+                    <div class="ornament-box has-image">
+                        <img src="assets/ornaments/ornament-8.png" alt="Ornament 8" class="tree-preview">
+                    </div>
+                    <div class="ornament-box has-image">
+                        <img src="assets/ornaments/ornament-9.png" alt="Ornament 9" class="tree-preview">
+                    </div>
+                    <div class="ornament-box has-image">
+                        <img src="assets/ornaments/ornament-10.png" alt="Ornament 10" class="tree-preview">
+                    </div>
+                    <div class="ornament-box has-image">
+                        <img src="assets/ornaments/ornament-11.png" alt="Ornament 11" class="tree-preview">
+                    </div>
+                    <div class="ornament-box has-image">
+                        <img src="assets/ornaments/ornament-12.png" alt="Ornament 12" class="tree-preview">
+                    </div>
+                    <div class="ornament-box has-image">
+                        <img src="assets/ornaments/ornament-13.png" alt="Ornament 13" class="tree-preview">
+                    </div>
+                    <div class="ornament-box has-image">
+                        <img src="assets/ornaments/ornament-14.png" alt="Ornament 14" class="tree-preview">
+                    </div>
+                    <div class="ornament-box has-image">
+                        <img src="assets/ornaments/ornament-extracted-1.png" alt="Ornament 15" class="tree-preview">
+                    </div>
+                    <div class="ornament-box has-image">
+                        <img src="assets/ornaments/ornament-extracted-2.png" alt="Ornament 16" class="tree-preview">
+                    </div>
+                    <div class="ornament-box has-image">
+                        <img src="assets/ornaments/ornament-extracted-3.png" alt="Ornament 17" class="tree-preview">
+                    </div>
+                    <div class="ornament-box has-image">
+                        <img src="assets/ornaments/ornament-extracted-4.png" alt="Ornament 18" class="tree-preview">
+                    </div>
+                    <div class="ornament-box has-image">
+                        <img src="assets/ornaments/ornament-extracted-5.png" alt="Ornament 19" class="tree-preview">
+                    </div>
+                    <div class="ornament-box has-image">
+                        <img src="assets/ornaments/ornament-extracted-6.png" alt="Ornament 20" class="tree-preview">
+                    </div>
+                    <div class="ornament-box has-image">
+                        <img src="assets/ornaments/ornament-extracted-7.png" alt="Ornament 21" class="tree-preview">
+                    </div>
+                    <div class="ornament-box has-image">
+                        <img src="assets/ornaments/ornament-extracted-8.png" alt="Ornament 22" class="tree-preview">
+                    </div>
+                    <div class="ornament-box has-image">
+                        <img src="assets/ornaments/ornament-extracted-9.png" alt="Ornament 23" class="tree-preview">
+                    </div>
+                    <div class="ornament-box has-image">
+                        <img src="assets/ornaments/ornament-extracted-10.png" alt="Ornament 24" class="tree-preview">
+                    </div>
+                    <div class="ornament-box has-image">
+                        <img src="assets/ornaments/ornament-extracted-11.png" alt="Ornament 25" class="tree-preview">
+                    </div>
+                    <div class="ornament-box has-image">
+                        <img src="assets/ornaments/ornament-extracted-12.png" alt="Ornament 26" class="tree-preview">
+                    </div>
+                    <div class="ornament-box has-image">
+                        <img src="assets/ornaments/ornament-extracted-13.png" alt="Ornament 27" class="tree-preview">
+                    </div>
+                    <div class="ornament-box has-image">
+                        <img src="assets/ornaments/ornament-extracted-14.png" alt="Ornament 28" class="tree-preview">
+                    </div>
+                    <div class="ornament-box has-image">
+                        <img src="assets/ornaments/ornament-extracted-15.png" alt="Ornament 29" class="tree-preview">
+                    </div>
+                    <div class="ornament-box has-image">
+                        <img src="assets/ornaments/ornament-extracted-16.png" alt="Ornament 30" class="tree-preview">
+                    </div>
+                    <div class="ornament-box has-image">
+                        <img src="assets/ornaments/ornament-extracted-17.png" alt="Ornament 31" class="tree-preview">
+                    </div>
+                    <div class="ornament-box has-image">
+                        <img src="assets/ornaments/ornament-extracted-18.png" alt="Ornament 32" class="tree-preview">
+                    </div>
+                    <div class="ornament-box has-image">
+                        <img src="assets/ornaments/ornament-extracted-19.png" alt="Ornament 33" class="tree-preview">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Text Tool Sections (Hidden by default) -->
+            <div class="section text-section" style="display: none;">
+                <div class="section-header">
+                    <span>Add Text</span>
+                </div>
+                <div style="padding: 10px;">
+                    <input type="text" class="text-input" placeholder="Enter your text..." style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; font-size: 14px; margin-bottom: 10px;">
+                    <button class="add-text-btn" style="width: 100%; padding: 10px; background-color: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 14px;">Add to Canvas</button>
+                </div>
+            </div>
+
+            <div class="section text-section" style="display: none;">
+                <div class="section-header">
+                    <span>Font Family</span>
+                </div>
+                <div class="font-grid" style="display: grid; grid-template-columns: 1fr; gap: 8px; padding: 10px;">
+                    <button class="font-option" data-font="Arial" style="font-family: Arial; padding: 10px; border: 1px solid #ddd; border-radius: 5px; background: white; cursor: pointer;">Arial</button>
+                    <button class="font-option" data-font="'Times New Roman', serif" style="font-family: 'Times New Roman', serif; padding: 10px; border: 1px solid #ddd; border-radius: 5px; background: white; cursor: pointer;">Times New Roman</button>
+                    <button class="font-option" data-font="Georgia, serif" style="font-family: Georgia, serif; padding: 10px; border: 1px solid #ddd; border-radius: 5px; background: white; cursor: pointer;">Georgia</button>
+                    <button class="font-option" data-font="'Courier New', monospace" style="font-family: 'Courier New', monospace; padding: 10px; border: 1px solid #ddd; border-radius: 5px; background: white; cursor: pointer;">Courier New</button>
+                    <button class="font-option" data-font="'Comic Sans MS', cursive" style="font-family: 'Comic Sans MS', cursive; padding: 10px; border: 1px solid #ddd; border-radius: 5px; background: white; cursor: pointer;">Comic Sans</button>
+                    <button class="font-option" data-font="Impact, fantasy" style="font-family: Impact, fantasy; padding: 10px; border: 1px solid #ddd; border-radius: 5px; background: white; cursor: pointer;">Impact</button>
+                    <button class="font-option" data-font="'Brush Script MT', cursive" style="font-family: 'Brush Script MT', cursive; padding: 10px; border: 1px solid #ddd; border-radius: 5px; background: white; cursor: pointer;">Brush Script</button>
+                    <button class="font-option" data-font="'Lucida Handwriting', cursive" style="font-family: 'Lucida Handwriting', cursive; padding: 10px; border: 1px solid #ddd; border-radius: 5px; background: white; cursor: pointer;">Handwriting</button>
+                    <button class="font-option" data-font="'Papyrus', fantasy" style="font-family: 'Papyrus', fantasy; padding: 10px; border: 1px solid #ddd; border-radius: 5px; background: white; cursor: pointer;">Papyrus</button>
+                    <button class="font-option" data-font="'Trebuchet MS', sans-serif" style="font-family: 'Trebuchet MS', sans-serif; padding: 10px; border: 1px solid #ddd; border-radius: 5px; background: white; cursor: pointer;">Trebuchet MS</button>
+                    <button class="font-option" data-font="'Verdana', sans-serif" style="font-family: 'Verdana', sans-serif; padding: 10px; border: 1px solid #ddd; border-radius: 5px; background: white; cursor: pointer;">Verdana</button>
+                    <button class="font-option" data-font="'Palatino Linotype', serif" style="font-family: 'Palatino Linotype', serif; padding: 10px; border: 1px solid #ddd; border-radius: 5px; background: white; cursor: pointer;">Palatino</button>
+                </div>
+            </div>
+
+            <div class="section text-section" style="display: none;">
+                <div class="section-header">
+                    <span>Font Size</span>
+                </div>
+                <div style="padding: 10px;">
+                    <input type="range" class="font-size-slider" min="12" max="72" value="24" style="width: 100%; margin-bottom: 10px;">
+                    <div class="font-size-display" style="text-align: center; font-size: 14px; color: #666;">24px</div>
+                </div>
+            </div>
+
+            <div class="section text-section" style="display: none;">
+                <div class="section-header">
+                    <span>Text Color</span>
+                </div>
+                <div class="color-grid" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; padding: 10px;">
+                    <div class="color-option" data-color="#000000" style="background-color: #000000; width: 100%; aspect-ratio: 1; border-radius: 5px; cursor: pointer; border: 2px solid #ddd;"></div>
+                    <div class="color-option" data-color="#FFFFFF" style="background-color: #FFFFFF; width: 100%; aspect-ratio: 1; border-radius: 5px; cursor: pointer; border: 2px solid #ddd;"></div>
+                    <div class="color-option" data-color="#FF0000" style="background-color: #FF0000; width: 100%; aspect-ratio: 1; border-radius: 5px; cursor: pointer; border: 2px solid #ddd;"></div>
+                    <div class="color-option" data-color="#00FF00" style="background-color: #00FF00; width: 100%; aspect-ratio: 1; border-radius: 5px; cursor: pointer; border: 2px solid #ddd;"></div>
+                    <div class="color-option" data-color="#0000FF" style="background-color: #0000FF; width: 100%; aspect-ratio: 1; border-radius: 5px; cursor: pointer; border: 2px solid #ddd;"></div>
+                    <div class="color-option" data-color="#FFFF00" style="background-color: #FFFF00; width: 100%; aspect-ratio: 1; border-radius: 5px; cursor: pointer; border: 2px solid #ddd;"></div>
+                    <div class="color-option" data-color="#FF00FF" style="background-color: #FF00FF; width: 100%; aspect-ratio: 1; border-radius: 5px; cursor: pointer; border: 2px solid #ddd;"></div>
+                    <div class="color-option" data-color="#00FFFF" style="background-color: #00FFFF; width: 100%; aspect-ratio: 1; border-radius: 5px; cursor: pointer; border: 2px solid #ddd;"></div>
+                    <div class="color-option" data-color="#FFA500" style="background-color: #FFA500; width: 100%; aspect-ratio: 1; border-radius: 5px; cursor: pointer; border: 2px solid #ddd;"></div>
+                    <div class="color-option" data-color="#800080" style="background-color: #800080; width: 100%; aspect-ratio: 1; border-radius: 5px; cursor: pointer; border: 2px solid #ddd;"></div>
+                    <div class="color-option" data-color="#FFC0CB" style="background-color: #FFC0CB; width: 100%; aspect-ratio: 1; border-radius: 5px; cursor: pointer; border: 2px solid #ddd;"></div>
+                    <div class="color-option" data-color="#A52A2A" style="background-color: #A52A2A; width: 100%; aspect-ratio: 1; border-radius: 5px; cursor: pointer; border: 2px solid #ddd;"></div>
+                </div>
+            </div>
+
+            <div class="section text-section" style="display: none;">
+                <div class="section-header">
+                    <span>Emojis</span>
+                </div>
+                <div class="emoji-grid" style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; padding: 10px;">
+                    <button class="emoji-btn" data-emoji="🎄" style="font-size: 24px; padding: 8px; border: 1px solid #ddd; border-radius: 5px; background: white; cursor: pointer;">🎄</button>
+                    <button class="emoji-btn" data-emoji="🎅" style="font-size: 24px; padding: 8px; border: 1px solid #ddd; border-radius: 5px; background: white; cursor: pointer;">🎅</button>
+                    <button class="emoji-btn" data-emoji="🎁" style="font-size: 24px; padding: 8px; border: 1px solid #ddd; border-radius: 5px; background: white; cursor: pointer;">🎁</button>
+                    <button class="emoji-btn" data-emoji="⭐" style="font-size: 24px; padding: 8px; border: 1px solid #ddd; border-radius: 5px; background: white; cursor: pointer;">⭐</button>
+                    <button class="emoji-btn" data-emoji="❄️" style="font-size: 24px; padding: 8px; border: 1px solid #ddd; border-radius: 5px; background: white; cursor: pointer;">❄️</button>
+                    <button class="emoji-btn" data-emoji="🔔" style="font-size: 24px; padding: 8px; border: 1px solid #ddd; border-radius: 5px; background: white; cursor: pointer;">🔔</button>
+                    <button class="emoji-btn" data-emoji="🎊" style="font-size: 24px; padding: 8px; border: 1px solid #ddd; border-radius: 5px; background: white; cursor: pointer;">🎊</button>
+                    <button class="emoji-btn" data-emoji="🎉" style="font-size: 24px; padding: 8px; border: 1px solid #ddd; border-radius: 5px; background: white; cursor: pointer;">🎉</button>
+                    <button class="emoji-btn" data-emoji="🌟" style="font-size: 24px; padding: 8px; border: 1px solid #ddd; border-radius: 5px; background: white; cursor: pointer;">🌟</button>
+                    <button class="emoji-btn" data-emoji="✨" style="font-size: 24px; padding: 8px; border: 1px solid #ddd; border-radius: 5px; background: white; cursor: pointer;">✨</button>
+                    <button class="emoji-btn" data-emoji="🕯️" style="font-size: 24px; padding: 8px; border: 1px solid #ddd; border-radius: 5px; background: white; cursor: pointer;">🕯️</button>
+                    <button class="emoji-btn" data-emoji="🧦" style="font-size: 24px; padding: 8px; border: 1px solid #ddd; border-radius: 5px; background: white; cursor: pointer;">🧦</button>
+                    <button class="emoji-btn" data-emoji="🦌" style="font-size: 24px; padding: 8px; border: 1px solid #ddd; border-radius: 5px; background: white; cursor: pointer;">🦌</button>
+                    <button class="emoji-btn" data-emoji="⛄" style="font-size: 24px; padding: 8px; border: 1px solid #ddd; border-radius: 5px; background: white; cursor: pointer;">⛄</button>
+                    <button class="emoji-btn" data-emoji="🤶" style="font-size: 24px; padding: 8px; border: 1px solid #ddd; border-radius: 5px; background: white; cursor: pointer;">🤶</button>
+                    <button class="emoji-btn" data-emoji="🎶" style="font-size: 24px; padding: 8px; border: 1px solid #ddd; border-radius: 5px; background: white; cursor: pointer;">🎶</button>
+                    <button class="emoji-btn" data-emoji="🍪" style="font-size: 24px; padding: 8px; border: 1px solid #ddd; border-radius: 5px; background: white; cursor: pointer;">🍪</button>
+                    <button class="emoji-btn" data-emoji="🥛" style="font-size: 24px; padding: 8px; border: 1px solid #ddd; border-radius: 5px; background: white; cursor: pointer;">🥛</button>
+                    <button class="emoji-btn" data-emoji="🍭" style="font-size: 24px; padding: 8px; border: 1px solid #ddd; border-radius: 5px; background: white; cursor: pointer;">🍭</button>
+                    <button class="emoji-btn" data-emoji="🎀" style="font-size: 24px; padding: 8px; border: 1px solid #ddd; border-radius: 5px; background: white; cursor: pointer;">🎀</button>
+                </div>
+            </div>
+
+            <!-- Image Tool Sections (Hidden by default) -->
+            <div class="section image-section" style="display: none;">
+                <div class="section-header">
+                    <span>Upload Image</span>
+                </div>
+                <div style="padding: 10px;">
+                    <input type="file" id="image-upload" accept="image/*" style="display: none;">
+                    <button class="upload-image-btn" style="width: 100%; padding: 15px; background-color: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 14px; display: flex; align-items: center; justify-content: center; gap: 8px;">
+                        <span style="font-size: 20px;">📁</span>
+                        Choose Image
+                    </button>
+                    <div class="upload-preview" style="margin-top: 10px; text-align: center; color: #666; font-size: 12px;">
+                        No image selected
+                    </div>
+                </div>
+            </div>
+
+            <div class="section image-section" style="display: none;">
+                <div class="section-header">
+                    <span>Uploaded Images</span>
+                </div>
+                <div class="uploaded-images-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; padding: 10px; min-height: 100px;">
+                    <div style="text-align: center; color: #999; font-size: 12px; grid-column: 1 / -1; padding: 20px;">
+                        Upload images to see them here
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="canvas-area">
+            <div class="canvas">
+                
+            </div>
+        </div>
+    </div>
+    
+    <script src="supabase-config.js"></script>
+    <script src="editor.js"></script>
+</body>
+</html>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Decorate Your Tree</title>
+    <link rel="stylesheet" href="decorator.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+    <div class="watermark">@ansafolio</div>
+    
+    <div class="card-container">
+        <div class="white-card">
+            <button class="create-btn" id="createBtn">+ Create New</button>
+            <h2 class="card-heading">Community Gallery - Get Inspired! 🎄</h2>
+            <div class="image-grid" id="galleryGrid">
+                <div class="loading-message">Loading gallery...</div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="supabase-config.js"></script>
+    <script src="decorator.js"></script>
+</body>
+</html>

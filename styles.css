@@ -1,0 +1,166 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+@font-face {
+    font-family: 'Playwrite NO';
+    src: url('fonts/PlaywriteNO-VariableFont_wght.ttf') format('truetype');
+    font-weight: 100 400;
+}
+
+@font-face {
+    font-family: 'Lilita One';
+    src: url('fonts/LilitaOne-Regular.ttf') format('truetype');
+    font-weight: 400;
+}
+
+@font-face {
+    font-family: 'Playwrite US Trad Guides';
+    src: url('fonts/PlaywriteUSTradGuides-Regular.ttf') format('truetype');
+    font-weight: 400;
+}
+
+@font-face {
+    font-family: 'Shadows Into Light';
+    src: url('fonts/ShadowsIntoLight-Regular.ttf') format('truetype');
+    font-weight: 400;
+}
+
+body {
+    font-family: 'Playwrite NO', cursive;
+    background-color: #eeeadb;
+    min-height: 100vh;
+    overflow-x: hidden;
+    overflow-y: auto;
+    position: relative;
+}
+
+h1 {
+    font-family: 'Lilita One', cursive;
+    color: black;
+    text-align: center;
+    padding-top: 60px;
+    font-size: 2.2rem;
+    font-weight: 800;
+}
+
+.watermark {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    font-family: 'Shadows Into Light', cursive;
+    font-size: 1.5rem;
+    color: black;
+    z-index: 100;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.tree-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.tree-image {
+    max-width: 380px;
+    width: 100%;
+    height: auto;
+}
+
+.create-btn {
+    display: block;
+    margin: 10px auto 10px;
+    padding: 15px 40px;
+    font-family: 'Lilita One', cursive;
+    font-size: 1.3rem;
+    color: black;
+    background-color: #f1ebdc;
+    border: 3px solid black;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    position: relative;
+    z-index: 10;
+}
+
+.create-btn:hover {
+    background-color: #000000;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(38, 37, 37, 0.4);
+    color: #efe5e5;
+}
+
+.create-btn:active {
+    transform: translateY(0);
+}
+
+.footer-text {
+    text-align: center;
+    font-family: 'Shadows Into Light', cursive;
+    font-size: 1.1rem;
+    color: #6b5d4f;
+    margin: 50px auto 5px;
+    padding: 0 20px;
+}
+
+.social-links {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 25px;
+    margin: 20px auto 20px;
+    padding: 10px;
+}
+
+.social-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #6b5d4f;
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+
+.social-icon:hover {
+    color: #3d342a;
+    transform: translateY(-3px) scale(1.15);
+}
+
+.social-icon:active {
+    transform: translateY(0) scale(1);
+}
+
+.social-icon svg {
+    width: 26px;
+    height: 26px;
+}
+
+.copyright-text {
+    text-align: center;
+    font-family: 'Shadows Into Light', cursive;
+    font-size: 0.9rem;
+    color: #6b5d4f;
+    margin: 50px auto 30px;
+    padding: 0 20px;
+}
+
+.snowflake {
+    position: absolute;
+    top: -10px;
+    color: white;
+    font-size: 1em;
+    user-select: none;
+    pointer-events: none;
+    animation: fall linear infinite;
+}
+
+@keyframes fall {
+    to {
+        transform: translateY(100vh);
+    }
+}

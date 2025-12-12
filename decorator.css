@@ -1,0 +1,352 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+@font-face {
+    font-family: 'Shadows Into Light';
+    src: url('fonts/ShadowsIntoLight-Regular.ttf') format('truetype');
+    font-weight: 400;
+}
+
+@font-face {
+    font-family: 'Lilita One';
+    src: url('fonts/LilitaOne-Regular.ttf') format('truetype');
+    font-weight: 400;
+}
+
+body {
+    background-color: #f1ebdc;
+    min-height: 100vh;
+    overflow-x: hidden;
+    overflow-y: auto;
+    position: relative;
+}
+
+.watermark {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    font-family: 'Shadows Into Light', cursive;
+    font-size: 1.2rem;
+    color: black;
+    z-index: 100;
+    text-decoration: none;
+}
+
+.card-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+    position: relative;
+}
+
+.create-btn {
+    position: absolute;
+    top: 40px;
+    right: 60px;
+    background: white;
+    color: black;
+    border: 1px solid black;
+    padding: 14px 28px;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 100;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    z-index: 10;
+    font-family: 'Lilita One', cursive;
+}
+
+.create-btn:hover {
+    transform: translateY(-2px);
+}
+
+.white-card {
+    background-color: white;
+    width: 90%;
+    max-width: 2000px;
+    min-height: 650px;
+    border-radius: 30px;
+    box-shadow: none;
+    padding: 40px;
+    position: relative;
+}
+
+.card-heading {
+    font-family: 'Lilita One', cursive;
+    font-size: 1.8rem;
+    color: black;
+    margin: 0 0 30px 0;
+    text-align: left;
+}
+
+.image-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-auto-rows: minmax(280px, auto);
+    gap: 20px;
+    width: 100%;
+}
+
+.gallery-item-wrapper {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.image-box {
+    background-color: #f5f5f5;
+    border: 2px solid #ddd;
+    border-radius: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-height: 230px;
+    flex: 1;
+}
+
+.image-box:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+}
+
+.plus-icon {
+    font-size: 3rem;
+    color: #999;
+    user-select: none;
+}
+
+.image-box.has-image {
+    border: 2px solid #ddd;
+    background-color: white;
+    padding: 10px;
+    overflow: hidden;
+    position: relative;
+    height: 100%;
+}
+
+.gallery-info-below {
+    padding: 8px 4px 4px;
+}
+
+.gallery-info-below .gallery-nickname {
+    font-weight: 600;
+    font-size: 14px;
+    color: #262626;
+    margin-bottom: 4px;
+}
+
+.gallery-info-below .gallery-stats {
+    display: flex;
+    gap: 12px;
+    font-size: 12px;
+    color: #8e8e8e;
+}
+
+.gallery-actions {
+    display: flex;
+    align-items: center;
+    padding: 0 4px 4px;
+}
+
+.like-btn {
+    background: transparent;
+    border: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    padding: 4px 0;
+}
+
+.like-btn:hover {
+    transform: scale(1.05);
+}
+
+.like-btn svg {
+    color: #262626;
+    transition: all 0.2s ease;
+}
+
+.like-btn:hover svg {
+    color: #ed4956;
+    transform: scale(1.1);
+}
+
+.like-btn.liked svg {
+    fill: #ed4956;
+    color: #ed4956;
+    animation: likeAnimation 0.4s ease;
+}
+
+.like-count {
+    font-size: 14px;
+    font-weight: 600;
+    color: #262626;
+}
+
+.like-btn.liked .like-count {
+    color: #ed4956;
+}
+
+@keyframes likeAnimation {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.3); }
+    100% { transform: scale(1); }
+}
+
+.gallery-with-bg {
+    position: relative;
+    overflow: hidden;
+    padding: 0 !important;
+    background: transparent;
+}
+
+.gallery-bg-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+.gallery-with-bg .tree-preview {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: relative;
+    z-index: 2;
+    opacity: 0.95;
+}
+
+.loading-message {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 40px;
+    color: #999;
+    font-size: 14px;
+}
+
+/* Background patterns - matching editor.css */
+.pattern-1 {
+    background-image: url('assets/gingham.jpeg');
+    background-size: cover;
+    background-position: center;
+}
+
+.pattern-2 {
+    background: repeating-linear-gradient(
+        45deg,
+        #ffb6c1,
+        #ffb6c1 10px,
+        transparent 10px,
+        transparent 20px
+    );
+    background-color: #ffd0d8;
+}
+
+.pattern-3 {
+    background: repeating-linear-gradient(
+        0deg,
+        #f0e6f0,
+        #f0e6f0 10px,
+        transparent 10px,
+        transparent 20px
+    );
+}
+
+.pattern-4 {
+    background: linear-gradient(135deg, #e8f4e8 25%, transparent 25%),
+                linear-gradient(225deg, #e8f4e8 25%, transparent 25%),
+                linear-gradient(45deg, #e8f4e8 25%, transparent 25%),
+                linear-gradient(315deg, #e8f4e8 25%, transparent 25%);
+    background-size: 20px 20px;
+    background-color: white;
+}
+
+.christmas-red {
+    background: linear-gradient(135deg, #c41e3a 0%, #8b0000 100%);
+}
+
+.christmas-green {
+    background: linear-gradient(135deg, #0f5f38 0%, #165b33 100%);
+}
+
+.christmas-snow {
+    background-color: #e8f4f8;
+    background-image: 
+        radial-gradient(circle at 20% 30%, white 2px, transparent 2px),
+        radial-gradient(circle at 60% 70%, white 2px, transparent 2px),
+        radial-gradient(circle at 80% 20%, white 1px, transparent 1px),
+        radial-gradient(circle at 40% 60%, white 1px, transparent 1px),
+        radial-gradient(circle at 90% 80%, white 2px, transparent 2px),
+        radial-gradient(circle at 10% 90%, white 1px, transparent 1px);
+    background-size: 50px 50px;
+    background-position: 0 0, 25px 25px, 10px 40px, 35px 15px, 15px 60px, 40px 30px;
+}
+
+.christmas-stars {
+    background-color: #1a237e;
+    background-image: 
+        radial-gradient(2px 2px at 20% 30%, gold, transparent),
+        radial-gradient(2px 2px at 60% 70%, gold, transparent),
+        radial-gradient(1px 1px at 50% 50%, white, transparent),
+        radial-gradient(1px 1px at 80% 10%, white, transparent),
+        radial-gradient(2px 2px at 90% 60%, gold, transparent),
+        radial-gradient(1px 1px at 15% 80%, white, transparent),
+        radial-gradient(2px 2px at 40% 20%, gold, transparent);
+    background-size: 100px 100px;
+    background-position: 0 0, 40px 60px, 130px 270px, 70px 100px, 10px 80px, 90px 30px, 50px 150px;
+}
+
+.christmas-stripes {
+    background: repeating-linear-gradient(
+        45deg,
+        #c41e3a,
+        #c41e3a 15px,
+        white 15px,
+        white 30px,
+        #0f5f38 30px,
+        #0f5f38 45px,
+        white 45px,
+        white 60px
+    );
+}
+
+.christmas-lights {
+    background-color: #1a4d2e;
+    background-image: 
+        radial-gradient(circle, #ff0000 3px, transparent 3px),
+        radial-gradient(circle, #ffd700 3px, transparent 3px),
+        radial-gradient(circle, #00ff00 3px, transparent 3px),
+        radial-gradient(circle, #0000ff 3px, transparent 3px),
+        radial-gradient(circle, #ff1493 3px, transparent 3px);
+    background-size: 40px 40px;
+    background-position: 0 0, 10px 10px, 20px 20px, 30px 30px, 15px 25px;
+}
+
+.christmas-plaid {
+    background-color: #c41e3a;
+    background-image: 
+        repeating-linear-gradient(0deg, transparent, transparent 10px, rgba(15, 95, 56, 0.5) 10px, rgba(15, 95, 56, 0.5) 20px),
+        repeating-linear-gradient(90deg, transparent, transparent 10px, rgba(15, 95, 56, 0.5) 10px, rgba(15, 95, 56, 0.5) 20px),
+        repeating-linear-gradient(0deg, transparent, transparent 40px, rgba(255, 255, 255, 0.3) 40px, rgba(255, 255, 255, 0.3) 44px),
+        repeating-linear-gradient(90deg, transparent, transparent 40px, rgba(255, 255, 255, 0.3) 40px, rgba(255, 255, 255, 0.3) 44px);
+}
+
+.christmas-gradient {
+    background: linear-gradient(135deg, 
+        #c41e3a 0%, 
+        #0f5f38 50%, 
+        #ffd700 100%);
+}
