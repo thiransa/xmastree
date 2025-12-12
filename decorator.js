@@ -40,12 +40,11 @@ async function loadGallery() {
     try {
         console.log('Fetching designs from Supabase...');
         
-        // Fetch the 3 most recent designs from Supabase
+        // Fetch all designs from Supabase (most recent first)
         const { data: designs, error } = await supabase
             .from('decorated_trees')
             .select('*')
-            .order('created_at', { ascending: false })
-            .limit(3);
+            .order('created_at', { ascending: false });
         
         console.log('Supabase response:', { designs, error });
         

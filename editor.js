@@ -333,8 +333,20 @@ document.addEventListener('DOMContentLoaded', () => {
     // Save button functionality
     const saveBtn = document.querySelector('.save-btn');
     if (saveBtn) {
-        saveBtn.addEventListener('click', () => {
-            saveCanvasDesign();
+        saveBtn.addEventListener('click', async () => {
+            // Disable button during save
+            saveBtn.disabled = true;
+            saveBtn.textContent = 'Saving...';
+            
+            try {
+                await saveCanvasDesign();
+            } catch (error) {
+                console.error('Save failed:', error);
+                alert('Failed to save design. Please check your connection and try again.');
+            } finally {
+                saveBtn.disabled = false;
+                saveBtn.textContent = 'Save';
+            }
         });
     }
     
@@ -387,7 +399,13 @@ document.addEventListener('DOMContentLoaded', () => {
     saveState();
 });
 
-function saveCanvasDesign() {
+async function saveCanvasDesign() {
+    // Check if Supabase is loaded
+    if (typeof supabase === 'undefined' || typeof html2canvas === 'undefined') {
+        alert('Required libraries not loaded. Please refresh the page and try again.');
+        throw new Error('Supabase or html2canvas not loaded');
+    }
+    
     const canvas = document.querySelector('.canvas');
     
     // Get canvas background

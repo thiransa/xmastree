@@ -69,11 +69,13 @@ body {
     background-color: white;
     width: 90%;
     max-width: 2000px;
-    min-height: 650px;
+    min-height: auto;
     border-radius: 30px;
     box-shadow: none;
     padding: 40px;
+    padding-bottom: 60px;
     position: relative;
+    transition: all 0.3s ease;
 }
 
 .card-heading {
