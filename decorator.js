@@ -1,6 +1,11 @@
 // Christmas Tree Decorator Page
 // Add click handlers to all image boxes
 
+let currentOffset = 0;
+const DESIGNS_PER_PAGE = 20;
+let isLoading = false;
+let hasMoreDesigns = true;
+
 document.addEventListener('DOMContentLoaded', () => {
     console.log('Decorator page loaded');
     
@@ -27,67 +32,61 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log('Calling loadGallery...');
     loadGallery();
     
-    // Auto-refresh gallery every 5 seconds to show new designs
+    // Auto-refresh gallery every 30 seconds to show new designs
     setInterval(() => {
         console.log('Auto-refreshing gallery...');
-        loadGallery();
-    }, 5000);
+        loadGallery(true);
+    }, 30000);
 });
 
-async function loadGallery() {
+async function loadGallery(isRefresh = false) {
     const galleryGrid = document.getElementById('galleryGrid');
+    
+    if (isLoading) return;
+    isLoading = true;
     
     try {
         console.log('Fetching designs from Supabase...');
         
-        // First, fetch all designs to check if we need to delete old ones
-        const { data: allDesigns, error: fetchError } = await supabase
-            .from('decorated_trees')
-            .select('id, created_at')
-            .order('created_at', { ascending: false });
-        
-        if (fetchError) throw fetchError;
-        
-        // Delete old designs if we have more than 2
-        if (allDesigns && allDesigns.length > 2) {
-            const designsToDelete = allDesigns.slice(2);
-            const idsToDelete = designsToDelete.map(d => d.id);
-            
-            console.log(`Deleting ${idsToDelete.length} old designs:`, idsToDelete);
-            
-            const { error: deleteError } = await supabase
-                .from('decorated_trees')
-                .delete()
-                .in('id', idsToDelete);
-            
-            if (deleteError) {
-                console.error('Error deleting old designs:', deleteError);
-            } else {
-                console.log('Successfully deleted old designs');
-            }
+        // If refresh, reset offset
+        if (isRefresh) {
+            currentOffset = 0;
         }
         
-        // Now fetch only the 2 most recent designs with full data
+        // Fetch designs with pagination (20 per page)
         const { data: designs, error } = await supabase
             .from('decorated_trees')
             .select('*')
             .order('created_at', { ascending: false })
-            .limit(2);
+            .range(currentOffset, currentOffset + DESIGNS_PER_PAGE - 1);
         
         console.log('Supabase response:', { designs, error });
         
         if (error) throw error;
         
-        // Clear loading message
-        galleryGrid.innerHTML = '';
+        // If refresh, clear the grid
+        if (isRefresh || currentOffset === 0) {
+            galleryGrid.innerHTML = '';
+            
+            // Remove existing load more button if any
+            const existingBtn = document.getElementById('loadMoreBtn');
+            if (existingBtn) existingBtn.remove();
+        }
         
         if (!designs || designs.length === 0) {
-            console.log('No designs found');
-            galleryGrid.innerHTML = '<div class="loading-message">No designs yet. Be the first to create one! 🎨</div>';
+            if (currentOffset === 0) {
+                console.log('No designs found');
+                galleryGrid.innerHTML = '<div class="loading-message">No designs yet. Be the first to create one! 🎨</div>';
+            }
+            hasMoreDesigns = false;
+            isLoading = false;
             return;
         }
         
         console.log(`Displaying ${designs.length} designs`);
+        
+        // Check if there are more designs to load
+        hasMoreDesigns = designs.length === DESIGNS_PER_PAGE;
         
         // Render gallery items in image-box format
         designs.forEach(design => {
@@ -174,8 +173,34 @@ async function loadGallery() {
         });
         
         console.log('Gallery grid children count:', galleryGrid.children.length);
+        
+        // Update offset for next load
+        currentOffset += designs.length;
+        
+        // Add or update Load More button
+        let loadMoreBtn = document.getElementById('loadMoreBtn');
+        
+        if (hasMoreDesigns) {
+            if (!loadMoreBtn) {
+                loadMoreBtn = document.createElement('button');
+                loadMoreBtn.id = 'loadMoreBtn';
+                loadMoreBtn.className = 'load-more-btn';
+                loadMoreBtn.textContent = 'Load More';
+                loadMoreBtn.addEventListener('click', () => loadGallery(false));
+                
+                // Insert after the gallery grid
+                galleryGrid.parentNode.insertBefore(loadMoreBtn, galleryGrid.nextSibling);
+            }
+        } else if (loadMoreBtn) {
+            loadMoreBtn.remove();
+        }
+        
+        isLoading = false;
     } catch (error) {
         console.error('Error loading gallery:', error);
-        galleryGrid.innerHTML = '<div class="loading-message">Error loading gallery. Please refresh the page.</div>';
+        if (currentOffset === 0) {
+            galleryGrid.innerHTML = '<div class="loading-message">Error loading gallery. Please refresh the page.</div>';
+        }
+        isLoading = false;
     }
 }
