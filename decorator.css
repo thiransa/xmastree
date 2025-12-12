@@ -228,7 +228,6 @@ body {
     object-fit: cover;
     position: relative;
     z-index: 2;
-    opacity: 0.95;
 }
 
 .loading-message {
@@ -351,4 +350,13 @@ body {
         #c41e3a 0%, 
         #0f5f38 50%, 
         #ffd700 100%);
+}
+
+.copyright-text {
+    text-align: center;
+    font-family: 'Shadows Into Light', cursive;
+    font-size: 0.9rem;
+    color: #6b5d4f;
+    margin: 40px auto 30px;
+    padding: 0 20px;
 }

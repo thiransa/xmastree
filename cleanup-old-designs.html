@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cleanup Old Designs</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+    <h1>Database Cleanup Tool</h1>
+    <button id="cleanupBtn" style="padding: 10px 20px; font-size: 16px; cursor: pointer;">
+        Delete Old Designs (Keep 2 Most Recent)
+    </button>
+    <div id="status" style="margin-top: 20px; font-family: monospace;"></div>
+
+    <script src="supabase-config.js"></script>
+    <script>
+        document.getElementById('cleanupBtn').addEventListener('click', async () => {
+            const statusDiv = document.getElementById('status');
+            const btn = document.getElementById('cleanupBtn');
+            
+            try {
+                btn.disabled = true;
+                statusDiv.innerHTML = 'Fetching designs...<br>';
+                
+                // Get all designs ordered by creation date (newest first)
+                const { data: designs, error: fetchError } = await supabase
+                    .from('decorated_trees')
+                    .select('id, nickname, created_at')
+                    .order('created_at', { ascending: false });
+                
+                if (fetchError) throw fetchError;
+                
+                statusDiv.innerHTML += `Found ${designs.length} total designs<br>`;
+                
+                if (designs.length <= 2) {
+                    statusDiv.innerHTML += 'No cleanup needed - 2 or fewer designs exist<br>';
+                    btn.disabled = false;
+                    return;
+                }
+                
+                // Keep the first 2 (most recent), delete the rest
+                const toKeep = designs.slice(0, 2);
+                const toDelete = designs.slice(2);
+                
+                statusDiv.innerHTML += `<br>Keeping 2 most recent:<br>`;
+                toKeep.forEach(d => {
+                    statusDiv.innerHTML += `  ✓ ${d.nickname} (${new Date(d.created_at).toLocaleString()})<br>`;
+                });
+                
+                statusDiv.innerHTML += `<br>Deleting ${toDelete.length} old designs:<br>`;
+                
+                // Delete old designs one by one
+                for (const design of toDelete) {
+                    const { error: deleteError } = await supabase
+                        .from('decorated_trees')
+                        .delete()
+                        .eq('id', design.id);
+                    
+                    if (deleteError) {
+                        statusDiv.innerHTML += `  ✗ Failed to delete ${design.nickname}: ${deleteError.message}<br>`;
+                    } else {
+                        statusDiv.innerHTML += `  ✓ Deleted ${design.nickname} (${new Date(design.created_at).toLocaleString()})<br>`;
+                    }
+                }
+                
+                statusDiv.innerHTML += `<br><strong>✅ Cleanup complete!</strong><br>`;
+                statusDiv.innerHTML += `<br><a href="decorator.html">View Gallery</a>`;
+                
+            } catch (error) {
+                statusDiv.innerHTML += `<br><strong style="color: red;">❌ Error: ${error.message}</strong><br>`;
+                console.error('Cleanup error:', error);
+            } finally {
+                btn.disabled = false;
+            }
+        });
+    </script>
+</body>
+</html>

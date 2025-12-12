@@ -40,11 +40,39 @@ async function loadGallery() {
     try {
         console.log('Fetching designs from Supabase...');
         
-        // Fetch all designs from Supabase (most recent first)
+        // First, fetch all designs to check if we need to delete old ones
+        const { data: allDesigns, error: fetchError } = await supabase
+            .from('decorated_trees')
+            .select('id, created_at')
+            .order('created_at', { ascending: false });
+        
+        if (fetchError) throw fetchError;
+        
+        // Delete old designs if we have more than 2
+        if (allDesigns && allDesigns.length > 2) {
+            const designsToDelete = allDesigns.slice(2);
+            const idsToDelete = designsToDelete.map(d => d.id);
+            
+            console.log(`Deleting ${idsToDelete.length} old designs:`, idsToDelete);
+            
+            const { error: deleteError } = await supabase
+                .from('decorated_trees')
+                .delete()
+                .in('id', idsToDelete);
+            
+            if (deleteError) {
+                console.error('Error deleting old designs:', deleteError);
+            } else {
+                console.log('Successfully deleted old designs');
+            }
+        }
+        
+        // Now fetch only the 2 most recent designs with full data
         const { data: designs, error } = await supabase
             .from('decorated_trees')
             .select('*')
-            .order('created_at', { ascending: false });
+            .order('created_at', { ascending: false })
+            .limit(2);
         
         console.log('Supabase response:', { designs, error });
         
@@ -59,7 +87,7 @@ async function loadGallery() {
             return;
         }
         
-        console.log(`Found ${designs.length} designs`);
+        console.log(`Displaying ${designs.length} designs`);
         
         // Render gallery items in image-box format
         designs.forEach(design => {

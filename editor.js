@@ -528,24 +528,30 @@ async function saveToSupabase(designData, nickname, shareToGallery) {
         const canvasDiv = document.querySelector('.canvas');
         console.log('Generating thumbnail...');
         
-        // Clone canvas content with TRANSPARENT background
+        // Clone canvas content WITH its background
         const canvasClone = canvasDiv.cloneNode(true);
         canvasClone.style.position = 'fixed';
         canvasClone.style.left = '-9999px';
-        canvasClone.style.background = 'transparent';
-        canvasClone.style.backgroundImage = 'none';
+        canvasClone.style.top = '-9999px';
+        canvasClone.style.width = canvasDiv.offsetWidth + 'px';
+        canvasClone.style.height = canvasDiv.offsetHeight + 'px';
+        // Preserve the background from the original canvas
+        canvasClone.style.background = canvasDiv.style.background || 'white';
+        canvasClone.style.backgroundSize = 'cover';
+        canvasClone.style.backgroundPosition = 'center';
+        
+        // Remove resize handles from clone
+        canvasClone.querySelectorAll('.resize-handle').forEach(el => el.remove());
+        
         document.body.appendChild(canvasClone);
         
-        // Capture with html2canvas with transparent background
+        // Capture with html2canvas with the actual background
         const thumbnail = await html2canvas(canvasClone, {
             backgroundColor: null,
             scale: 0.5,
             useCORS: true,
             allowTaint: true,
-            logging: false,
-            ignoreElements: (element) => {
-                return element.classList.contains('resize-handle');
-            }
+            logging: false
         });
         
         // Clean up
